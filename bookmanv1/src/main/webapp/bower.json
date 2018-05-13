@@ -1,0 +1,19 @@
+{
+  "name": "bookmanv1",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies" :{
+  	"bootstrap":"~3.3.7",
+  	"bootstrap-datepicker":"1.6"
+  }
+}

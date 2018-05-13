@@ -9,7 +9,7 @@ import cn.edu.nyist.bookmanv1.Dao.BookAddDataDao;
 import cn.edu.nyist.bookmanv1.util.JDBCUtil;
 
 
-public class BookAddDataDaoImpl implements BookAddDataDao {
+public class BookAddDataJdbcDaoImpl implements BookAddDataDao {
 
 	@Override
 	public int getAdd(String name, String descri, String author, int tid, Date pubDate, double price,

@@ -28,7 +28,10 @@ public class C3P0Test {
 		cpds=new ComboPooledDataSource();
 		return cpds.getConnection();
 	}
-	
+	/*
+	 * 
+	 * 这是为了检验github的上传项目传的项目
+	 */
 	public static void free() {
 		cpds.close();
 	}

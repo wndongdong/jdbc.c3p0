@@ -73,7 +73,11 @@
 	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
-		
+		$(function(){
+			$("#vcodeImg").click(function(e){
+				this.src="vcode.png?t="+Math.random();
+				});
+		});
 	</script>
 </body>
 </html>

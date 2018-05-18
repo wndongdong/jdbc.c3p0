@@ -58,7 +58,7 @@
 						<label for="inputtype" class="col-sm-2 control-label"> 类型
 						</label>
 						<div class="col-sm-10">
-							<select class="form-control" id="inputtype" name="type">
+							<select class="form-control" id="inputtype" name="tid">
 								<option value="1">法学</option>
 								<option value="2">哲学</option>
 								<option value="3">经济学</option>

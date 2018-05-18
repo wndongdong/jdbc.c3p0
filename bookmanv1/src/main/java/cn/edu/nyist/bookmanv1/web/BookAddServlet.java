@@ -1,9 +1,6 @@
 package cn.edu.nyist.bookmanv1.web;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -16,6 +13,8 @@ import javax.servlet.http.Part;
 
 import cn.edu.nyist.bookmanv1.biz.BookAddDataBiz;
 import cn.edu.nyist.bookmanv1.biz.impl.BookAddDataBizImpl;
+import cn.edu.nyist.bookmanv1.util.MyBeanUtils;
+import cn.edu.nyist.bookmanv1.vo.BookVo;
 
 @WebServlet("/bookAdd")
 @MultipartConfig
@@ -36,10 +35,11 @@ public class BookAddServlet extends HttpServlet {
 				Part part=request.getPart("photo");
 				String fileName=part.getHeader("Content-Disposition").split(";")[2].split("=")[1].replace("\"", "");
 				fileName = fileName.lastIndexOf("\\") == -1 ? fileName : fileName.substring(fileName.lastIndexOf("\\") + 1);
-
 				String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
 				String newFileName = UUID.randomUUID().toString() + "." + ext;
+				System.out.println(newFileName);
 				part.write(request.getServletContext().getRealPath("upload/" + newFileName));
+	/*			
 				String name=request.getParameter("name");
 				String descri=request.getParameter("descri");
 				String author=request.getParameter("author");
@@ -48,21 +48,25 @@ public class BookAddServlet extends HttpServlet {
 				String pd=request.getParameter("pubDate");
 				//先进行此种转换
 				//Date pubDate=java.sql.Date.parse(pd);//这样不行，因为后面的parse()方法返回值类型是long
+				double price=Double.parseDouble(request.getParameter("price"));
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");//这里的月份为与分钟区分，所以用大写M
 				Date pubDate = null;
 				try {
 					pubDate=sdf.parse(pd);
 				} catch (ParseException e) {
 					e.printStackTrace();
-				}
-				double price=Double.parseDouble(request.getParameter("price"));
+				}*/
+				
+				BookVo bookVo=new BookVo();
+				MyBeanUtils.populate(bookVo,request.getParameterMap(),"yyyy-MM-dd");
+				System.out.println(bookVo.getTid());
+				bookVo.setPhoto(newFileName);
 				//2.连接数据库，添加书籍
 				BookAddDataBiz badb=new BookAddDataBizImpl();
-				int ret = badb.getAdd(name,descri,author,tid,pubDate,price,"upload/"+newFileName);
-				
+				int ret = badb.getAdd(bookVo);
 				//根据返回的结果，进行服务器对客户端的响应
 				if(ret>0) {
-					response.encodeRedirectURL("main.jsp");
+					response.sendRedirect("main.jsp");
 				}else {
 					request.getRequestDispatcher("bookdata.jsp").forward(request, response);
 				}

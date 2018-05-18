@@ -59,10 +59,11 @@
 						</label>
 						<div class="col-sm-10">
 							<select class="form-control" id="inputtype" name="tid">
-								<option value="1">法学</option>
+						<!-- 		<option value="1">法学</option>
 								<option value="2">哲学</option>
 								<option value="3">经济学</option>
-								<option value="4">软件编程</option>
+								<option value="4">软件编程</option> -->
+								
 							</select>
 						</div>
 					</div>
@@ -125,6 +126,16 @@
 				autoclose : true
 			});
 		});
+	</script>
+	<script type="text/javascript">
+		function selAllType(){
+			var sel = document.getElementById("inputtype");
+			for(var i=0;i<types.length;i++){
+				sel.appendChild(new Option(types[i].name,types[i].id));	
+			}
+		}
+	</script>
+	<script type="text/javascript" src="selAllBookType" onload="selAllType()">
 	</script>
 </body>
 </html>

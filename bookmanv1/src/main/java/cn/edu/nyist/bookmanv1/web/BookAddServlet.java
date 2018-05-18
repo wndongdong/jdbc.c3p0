@@ -37,7 +37,6 @@ public class BookAddServlet extends HttpServlet {
 				fileName = fileName.lastIndexOf("\\") == -1 ? fileName : fileName.substring(fileName.lastIndexOf("\\") + 1);
 				String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
 				String newFileName = UUID.randomUUID().toString() + "." + ext;
-				System.out.println(newFileName);
 				part.write(request.getServletContext().getRealPath("upload/" + newFileName));
 	/*			
 				String name=request.getParameter("name");
@@ -59,7 +58,7 @@ public class BookAddServlet extends HttpServlet {
 				
 				BookVo bookVo=new BookVo();
 				MyBeanUtils.populate(bookVo,request.getParameterMap(),"yyyy-MM-dd");
-				System.out.println(bookVo.getTid());
+				
 				bookVo.setPhoto(newFileName);
 				//2.连接数据库，添加书籍
 				BookAddDataBiz badb=new BookAddDataBizImpl();

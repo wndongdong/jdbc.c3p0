@@ -26,7 +26,6 @@ public class BookAddDataDaoImpl implements BookAddDataDao {
 			stmt.setDate(5,new java.sql.Date(bookVo.getPubDate().getTime()));
 			stmt.setDouble(6,bookVo.getPrice());
 			stmt.setString(7, bookVo.getPhoto());
-			System.out.println(bookVo.getTid());
 			
 			int ret=stmt.executeUpdate();
 			return ret;

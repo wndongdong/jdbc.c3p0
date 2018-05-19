@@ -8,13 +8,9 @@ import java.sql.Statement;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class JDBCUtil {
-	
+	private static ComboPooledDataSource cpds=new ComboPooledDataSource();
 	public static Connection getConn() {
-		
-		ComboPooledDataSource cpds;
 		try {
-			
-			cpds=new ComboPooledDataSource();
 			return cpds.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();

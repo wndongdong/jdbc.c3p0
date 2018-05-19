@@ -17,7 +17,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<form class="form-horizontal" role="form" method="post"
+				<form class="form-horizontal" id="signupForm" role="form" method="post"
 					action="bookAdd" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="inputName" class="col-sm-2 control-label"> 书名
@@ -115,6 +115,8 @@
 		src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript"
 		src="bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script type="text/javascript" src="bower_components/jquery-validation/dist/jquery.validate.js"></script>
+	
 	<script type="text/javascript">
 		$(function() {
 			$("#vcodeImg").click(function(e) {
@@ -128,14 +130,63 @@
 		});
 	</script>
 	<script type="text/javascript">
-		function selAllType(){
+		function selAllType(types){
 			var sel = document.getElementById("inputtype");
 			for(var i=0;i<types.length;i++){
 				sel.appendChild(new Option(types[i].name,types[i].id));	
 			}
 		}
 	</script>
+	<!-- 使用iframe标签 -->
+	<!-- 为了使得iframe窗口能够隐藏起来，使用styl配置display属性为none
+				display不保留窗口位置
+				visibility被设置为"hidden"的时候，元素虽然被隐藏了，但它仍然占据它原来所在的位置
+		 -->
+	<iframe src="selAllBookType" style="display:none;"></iframe>
+	<!-- 
+	<script type="text/javascript" src="selAllBookType">
+	</script>
+	 -->
+	<!-- 
 	<script type="text/javascript" src="selAllBookType" onload="selAllType()">
 	</script>
+	 -->
+	 
+	 <script type="text/javascript">
+	 $("#signupForm").validate( {
+			rules: {
+				name: "required",
+				descri: "required",
+				price: {
+					required: true,
+					number:true
+				}
+			},
+			messages: {
+				name: "书名必填",
+				descri: "描述必填",
+				price: {
+					required: "价格必填",
+					number:"数字必填"
+				}
+			},
+			errorElement: "em",
+			errorPlacement: function ( error, element ) {
+				error.addClass( "help-block" );
+				element.parents( ".col-sm-5" ).addClass( "has-feedback" );
+				if ( element.prop( "type" ) === "checkbox" ) {
+					error.insertAfter( element.parent( "label" ) );
+				} else {
+					error.insertAfter( element );
+				}
+			},
+			highlight: function ( element, errorClass, validClass ) {
+				$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
+			},
+			unhighlight: function ( element, errorClass, validClass ) {
+				$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
+			}
+		);
+	 </script>
 </body>
 </html>

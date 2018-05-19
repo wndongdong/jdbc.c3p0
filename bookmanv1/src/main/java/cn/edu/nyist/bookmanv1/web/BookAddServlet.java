@@ -9,10 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import cn.edu.nyist.bookmanv1.biz.BookAddDataBiz;
-import cn.edu.nyist.bookmanv1.biz.impl.BookAddDataBizImpl;
+import cn.edu.nyist.bookmanv1.biz.BookBiz;
+import cn.edu.nyist.bookmanv1.biz.impl.BookBizImpl;
 import cn.edu.nyist.bookmanv1.util.MyBeanUtils;
 import cn.edu.nyist.bookmanv1.vo.BookVo;
 
@@ -28,6 +29,17 @@ public class BookAddServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			//添加验证
+			String vcode=request.getParameter("vcode");
+			HttpSession session = request.getSession();
+			String serverVcode=(String) session.getAttribute("validateCode");
+			//2.连接数据库比对
+			if(!serverVcode.equalsIgnoreCase(vcode)) {
+				//如果不同则不用进行下面步骤
+				request.getRequestDispatcher("bookdata.jsp").forward(request, response);
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().write("alter(\"验证码输入错误\")");
+			}
 		//1.获取输入的内容
 				//获取图片，图片既是文件，即要上传文件
 					//(1)文件内容上传时编码问题
@@ -62,7 +74,7 @@ public class BookAddServlet extends HttpServlet {
 				System.out.println(bookVo.getTid());
 				bookVo.setPhoto(newFileName);
 				//2.连接数据库，添加书籍
-				BookAddDataBiz badb=new BookAddDataBizImpl();
+				BookBiz badb=new BookBizImpl();
 				int ret = badb.getAdd(bookVo);
 				//根据返回的结果，进行服务器对客户端的响应
 				if(ret>0) {

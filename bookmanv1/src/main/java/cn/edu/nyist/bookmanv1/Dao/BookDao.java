@@ -11,7 +11,7 @@ public interface BookDao {
 
 	List<TypeVo> getAllType();
 
-	List<BookVo> getAllBooks(int pageNo);
+	List<BookVo> getAllBooks(int pageNo, String name, int tid);
 
 	int getTotal();
 

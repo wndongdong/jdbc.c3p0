@@ -71,13 +71,23 @@ public class BookDaoJdbcImpl implements BookDao {
 	}
 
 	@Override
-	public List<BookVo> getAllBooks(int pageNo) {
+	public List<BookVo> getAllBooks(int pageNo, String name, int tid) {
 		Connection conn=null;
 		Statement stmt=null;
 		ResultSet rs=null;	
 		try {
 			conn=JDBCUtil.getConn();
-			String sql="select * from t_book limit "+((pageNo-1)*PageUtil.PAGE_SIZE+1-1)+","+PageUtil.PAGE_SIZE;
+			String sql="select * from t_book where 1=1 ";
+			if((name==null||name.equals(""))&&tid==1) {
+				
+			}else if((name==null||name.equals(""))&&tid!=1) {
+				sql+="and tid="+tid;
+			}else if(!(name==null||name.equals(""))&&tid==1){
+				sql+="and name like %"+name+"%";
+			}else {
+				sql+="and name like %"+name+"% and tid="+tid;
+			}
+			sql+=" limit "+((pageNo-1)*PageUtil.PAGE_SIZE+1-1)+","+PageUtil.PAGE_SIZE;
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(sql);
 			List<BookVo> ls=new ArrayList<>();

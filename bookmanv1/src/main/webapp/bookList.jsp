@@ -61,15 +61,17 @@
 					<thead>
 						<tr height="36px">
 							<td colspan="8">
-							<form class="form-inline">
+							<form class="form-inline" action="bookList">
 							  <div class="form-group">
 							    <label for="inputName">书名</label>
 							    <input type="text" class="form-control" id="inputName" name="name">
 							  </div>
 							  <div class="form-group">
 							    <label for="selType">类型</label>
-							   		<select id="selType" class="form-control">
+							   		<select id="selType" class="form-control" name="tid">
+							   			<option value="-1">全部</option>
 							   		<%
+							   			
 							   			List<TypeVo> tls=(List<TypeVo>)request.getAttribute("tls");	
 							    		for(TypeVo typeVo:tls){
 							    			%>

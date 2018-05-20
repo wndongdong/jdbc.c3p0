@@ -24,9 +24,9 @@ public class BookBizImpl implements BookBiz {
 
 	
 	@Override
-	public List<BookVo> getAllBooks(int pageNo) {
+	public List<BookVo> getAllBooks(int pageNo,String name,int tid) {
 		BookDao allBooks=new BookDaoJdbcImpl();
-		return allBooks.getAllBooks(pageNo);
+		return allBooks.getAllBooks(pageNo,name,tid);
 	}
 
 	@Override

@@ -29,15 +29,20 @@ public class BookAddServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			//添加验证
+		/*
+		 * 若要进行操作，则需要先判定的登录是否成功，若成功了才能继续，若不成功，则返回到登录界面
+		 * 	
+		 */
+			
+				//添加验证
 			String vcode=request.getParameter("vcode");
 			HttpSession session = request.getSession();
 			String serverVcode=(String) session.getAttribute("validateCode");
 			//2.连接数据库比对
 			if(!serverVcode.equalsIgnoreCase(vcode)) {
 				//如果不同则不用进行下面步骤
-				request.getRequestDispatcher("bookdata.jsp").forward(request, response);
 				response.setContentType("text/html;charset=utf-8");
+				request.getRequestDispatcher("bookdata.jsp").forward(request, response);
 				response.getWriter().write("alter(\"验证码输入错误\")");
 			}
 		//1.获取输入的内容
@@ -68,7 +73,7 @@ public class BookAddServlet extends HttpServlet {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}*/
-				
+				System.out.println(request.getParameter("name"));//TODO
 				BookVo bookVo=new BookVo();
 				MyBeanUtils.populate(bookVo,request.getParameterMap(),"yyyy-MM-dd");
 				System.out.println(bookVo.getTid());

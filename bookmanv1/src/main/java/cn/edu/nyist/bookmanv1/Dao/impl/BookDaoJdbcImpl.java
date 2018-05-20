@@ -78,11 +78,11 @@ public class BookDaoJdbcImpl implements BookDao {
 		try {
 			conn=JDBCUtil.getConn();
 			String sql="select * from t_book where 1=1 ";
-			if((name==null||name.equals(""))&&tid==1) {
+			if((name==null||name.equals(""))&&tid==-1) {
 				
-			}else if((name==null||name.equals(""))&&tid!=1) {
+			}else if((name==null||name.equals(""))&&tid!=-1) {
 				sql+="and tid="+tid;
-			}else if(!(name==null||name.equals(""))&&tid==1){
+			}else if(!(name==null||name.equals(""))&&tid==-1){
 				sql+="and name like %"+name+"%";
 			}else {
 				sql+="and name like %"+name+"% and tid="+tid;

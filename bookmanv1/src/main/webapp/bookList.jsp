@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -64,16 +65,16 @@
 							<form class="form-inline" action="bookList">
 							  <div class="form-group">
 							    <label for="inputName">书名</label>
-							    <input type="text" class="form-control" id="inputName" name="name">
+							    <input type="text" class="form-control" id="inputName" name="name" value="<%=(request.getAttribute("name")==null||request.getAttribute("name").equals(""))?"":request.getAttribute("name")%>">
 							  </div>
 							  <div class="form-group">
 							    <label for="selType">类型</label>
 							   		<select id="selType" class="form-control" name="tid">
+							   			
 							   			<option value="-1">全部</option>
 							   		<%
-							   			
-							   			List<TypeVo> tls=(List<TypeVo>)request.getAttribute("tls");	
-							    		for(TypeVo typeVo:tls){
+							   			List<TypeVo> tls1=(List<TypeVo>)request.getAttribute("tls");	
+							    		for(TypeVo typeVo:tls1){
 							    			%>
 							    			<option value="<%=typeVo.getId()%>"><%=typeVo.getName() %></option>
 							    			<%
@@ -109,6 +110,7 @@
 							<td><%=bookVo.getAuthor() %></td>
 							<td><%=bookVo.getDescri() %></td>
 							<% 
+								List<TypeVo> tls=(List<TypeVo>)request.getAttribute("tls");	
 								for(TypeVo typeVo:tls){
 									if(typeVo.getId()==bookVo.getTid()){
 										%>
@@ -215,6 +217,8 @@
 	<script type="text/javascript">
 		$(function(){
 			$("a[href='bookList?pageNo=<%=pageNo%>']").parent("li").addClass("active");
+
+			
 		});
 	</script>
 </body>

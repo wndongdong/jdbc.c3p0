@@ -22,6 +22,11 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		/**
+		 * 由于一些人没有权限，所以对书籍管理不能进行操作，所以就必须加以验证
+		 * 		由于这样写，有过多的代码重复，使得在后期维护上不利于维护，所以在此基础上的做法是，使用过滤器
+		 */
+		
 		//1.获取客户端输入
 		String name=request.getParameter("name");
 		String pwd=request.getParameter("pwd");
@@ -42,6 +47,8 @@ public class LoginServlet extends HttpServlet {
 		boolean ret=userBiz.getFindNameAndPwd(name,pwd);
 		//3.返回比对结果给客户
 		if(ret) {
+			//登录成功之后，对于登录成功的用户有一个记录，这个记录要用于在之后的一些操作中
+			request.getSession().setAttribute("loginSeccess", "1");
 			response.sendRedirect("main.jsp");
 		}else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);

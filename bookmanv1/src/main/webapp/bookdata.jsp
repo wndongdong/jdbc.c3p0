@@ -6,12 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>图书管理界面</title>
 <!-- 告诉浏览器不要缩放 -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="bower_components/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
-<link
-	href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css"
-	rel="stylesheet" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<div class="container-fluid">
@@ -151,42 +148,5 @@
 	<script type="text/javascript" src="selAllBookType" onload="selAllType()">
 	</script>
 	 -->
-	 
-	 <script type="text/javascript">
-	 $("#signupForm").validate( {
-			rules: {
-				name: "required",
-				descri: "required",
-				price: {
-					required: true,
-					number:true
-				}
-			},
-			messages: {
-				name: "书名必填",
-				descri: "描述必填",
-				price: {
-					required: "价格必填",
-					number:"数字必填"
-				}
-			},
-			errorElement: "em",
-			errorPlacement: function ( error, element ) {
-				error.addClass( "help-block" );
-				element.parents( ".col-sm-5" ).addClass( "has-feedback" );
-				if ( element.prop( "type" ) === "checkbox" ) {
-					error.insertAfter( element.parent( "label" ) );
-				} else {
-					error.insertAfter( element );
-				}
-			},
-			highlight: function ( element, errorClass, validClass ) {
-				$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
-			},
-			unhighlight: function ( element, errorClass, validClass ) {
-				$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
-			}
-		);
-	 </script>
 </body>
 </html>

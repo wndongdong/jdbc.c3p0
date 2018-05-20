@@ -25,10 +25,11 @@ public class BookListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		
 		//先获取界面输入的搜索内容
 		String name=request.getParameter("name");
 		String strTid=request.getParameter("tid");
-		int tid=-1;
+		int tid;
 		try {
 			tid=Integer.parseInt(strTid);
 		} catch (NumberFormatException e1) {

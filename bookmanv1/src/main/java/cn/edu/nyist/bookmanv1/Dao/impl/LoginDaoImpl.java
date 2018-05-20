@@ -17,7 +17,7 @@ public class LoginDaoImpl implements LoginDao {
 		boolean ret = false;
 		try {
 			conn=JDBCUtil.getConn();
-			String sql="select * from t_user where name=? and pwd=?";
+			String sql="select * from t_book_useman where name=? and pwd=?";
 			stmt=conn.prepareStatement(sql);
 			stmt.setString(1, name);
 			stmt.setString(2, pwd);

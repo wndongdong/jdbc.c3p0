@@ -34,14 +34,15 @@
 									<a href="#">书籍修改</a>
 								</li>
 								<li>
-									<a href="#">书籍列表</a>
+									<a href="bookList">书籍列表</a>
 								</li>
 							</ul>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<a href="#">退出</a>
+						<!-- 点击退出，退出书籍管理界面，再也对于书籍无法进行操作，并返回到登录界面，登录成功信息修改为登录失败 -->
+							<a href="login.jsp" id="exit" >退出</a>
 						</li>
 						<li class="dropdown">
 							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">账号<strong class="caret"></strong></a>

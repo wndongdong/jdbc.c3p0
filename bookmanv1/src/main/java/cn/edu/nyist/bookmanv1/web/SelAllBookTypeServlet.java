@@ -25,6 +25,10 @@ public class SelAllBookTypeServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		if(request.getSession().getAttribute("loginSeccess")==null||!request.getSession().getAttribute("loginSeccess").equals("1")){
+			response.sendRedirect("login.jsp");
+			return;
+		}
 		//连接业务层，获取数据
 		BookBiz bookBiz=new BookBizImpl();
 		List<TypeVo> ls=(List<TypeVo>) bookBiz.getAllType();

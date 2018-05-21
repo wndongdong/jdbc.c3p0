@@ -34,17 +34,7 @@ public class BookAddServlet extends HttpServlet {
 		 * 	
 		 */
 			
-				//添加验证
-			String vcode=request.getParameter("vcode");
-			HttpSession session = request.getSession();
-			String serverVcode=(String) session.getAttribute("validateCode");
-			//2.连接数据库比对
-			if(!serverVcode.equalsIgnoreCase(vcode)) {
-				//如果不同则不用进行下面步骤
-				response.setContentType("text/html;charset=utf-8");
-				request.getRequestDispatcher("bookdata.jsp").forward(request, response);
-				response.getWriter().write("alter(\"验证码输入错误\")");
-			}
+			
 		//1.获取输入的内容
 				//获取图片，图片既是文件，即要上传文件
 					//(1)文件内容上传时编码问题
@@ -56,7 +46,19 @@ public class BookAddServlet extends HttpServlet {
 				String newFileName = UUID.randomUUID().toString() + "." + ext;
 				System.out.println(newFileName);
 				part.write(request.getServletContext().getRealPath("upload/" + newFileName));
-	/*			
+	
+				//添加验证
+				String vcode=request.getParameter("vcode");
+				HttpSession session = request.getSession();
+				String serverVcode=(String) session.getAttribute("validateCode");
+				//2.连接数据库比对
+				if(!serverVcode.equalsIgnoreCase(vcode)) {
+					//如果不同则不用进行下面步骤
+					response.setContentType("text/html;charset=utf-8");
+					
+					request.getRequestDispatcher("bookdata.jsp").forward(request, response);
+				}
+				/*			
 				String name=request.getParameter("name");
 				String descri=request.getParameter("descri");
 				String author=request.getParameter("author");

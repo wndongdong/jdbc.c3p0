@@ -29,6 +29,7 @@ public class TimerFilter implements Filter {
 //		
 		long startTime=System.nanoTime();
 		System.out.println("start++++++++++++++++++++++++++++++++++");
+		System.out.println(chain);
 		chain.doFilter(request, response);
 		long endTime=System.nanoTime();
 		System.out.println("拦截总时长："+(endTime-startTime)+"纳秒");

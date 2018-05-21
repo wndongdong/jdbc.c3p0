@@ -35,7 +35,7 @@ public class LoginFiter implements Filter {
 		System.out.println("验证拦截开始-----------------------------");
 		if (req.getRequestURI().endsWith("/login") ||req.getRequestURI().endsWith("/login.jsp")
 				|| req.getRequestURI().contains("/bower_components/") || req.getRequestURI().endsWith("/vcode.png")) {
-			
+			System.out.println(chain);
 			chain.doFilter(request, response);
 			System.out.println("验证拦截结束-----------------------------");
 			return;

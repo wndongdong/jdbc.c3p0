@@ -31,7 +31,7 @@
 							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">书城操作<strong class="caret"></strong></a>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="#">书籍修改</a>
+									<a href="bookdata.jsp">书籍添加</a>
 								</li>
 								<li>
 									<a href="bookList">书籍列表</a>

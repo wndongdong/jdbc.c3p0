@@ -27,16 +27,20 @@
 		<div class="row"> 
 			<div class="col-md-12"> 
 				<form class="form-horizontal" role="form" method="post" action="login">
+					<%	
+							if(request.getAttribute("msg")!=null) {
+					%> 
+					<div class="alert alert-warning" role="alert">
+						<%=request.getAttribute("msg")%> 
+					<%} %>
+					</div>
 					<div class="form-group"> 
-						<%if(request.getAttribute("msg")!=null) {%> 
-						<div class="alert alert-warning" role="alert">
-							<%=request.getAttribute("msg") %> 
-						</div><%} %>
 							<label for="inputName" class="col-sm-2 control-label"> 
 							用户名
 							</label> 
 						<div class="col-sm-10"> 
-							<input type="text" class="form-control" id="inputName" name="name" value="<%=request.getAttribute("name")==null?"":request.getAttribute("name")%>"/>
+
+							<input type="text" class="form-control" id="inputName" name="name" value=""<%= request.getAttribute("name")==null?"":request.getAttribute("name") %>> 
 						</div> 
 					</div> 
 					<div class="form-group"> 
@@ -52,9 +56,9 @@
 						验证码
 						</label> 
 						<div class="col-sm-6"> 
-							<input type="text" class="form-control" id="inputVcode" name="vcode" maxlength="4"/>
-						</div> 
-						<div class="col-sm-4"> 
+							<input type="text" class="form-control" id="inputVcode" name="vcode" maxlength="4" value="<%= (request.getAttribute("vcode")==null||request.getAttribute("vcode").equals(""))?"":request.getAttribute("vcode")%>"/>
+						</div>
+						<div class="col-sm-4">
 							<img alt="" src="vcode.png" id="vcodeImg" title="单击换图"> 
 						</div> 
 					</div> 

@@ -48,17 +48,17 @@ public class BookListServlet extends HttpServlet {
 		List<TypeVo> tls=bookBiz.getAllType();
 		int totalPage=bookBiz.getTotal();
 		if(totalPage%PageUtil.PAGE_SIZE==0) {
-			request.setAttribute("totalPage",totalPage%PageUtil.PAGE_SIZE);
+			request.setAttribute("totalPage",totalPage/PageUtil.PAGE_SIZE);
 		}else {
-			request.setAttribute("totalPage",totalPage%PageUtil.PAGE_SIZE+1);
+			request.setAttribute("totalPage",totalPage/PageUtil.PAGE_SIZE+1);
 		}
 		
-		request.setAttribute("name", name);
-		request.setAttribute("tid", tid);
+		request.getSession().setAttribute("name", name);
+		request.getSession().setAttribute("tid", tid);
 		request.setAttribute("pageNo", pageNo);
 		//为了获取书籍类型数据，所以要拿到书籍数据
 		
-		request.setAttribute("tls", tls);
+		request.getSession().setAttribute("tls", tls);
 		//将所得到的数据发送到jsp页面
 		request.setAttribute("ls", ls);
 		request.getRequestDispatcher("bookList.jsp").forward(request, response);

@@ -40,6 +40,10 @@ public class LoginServlet extends HttpServlet {
 		//2.连接数据库比对
 		if(!serverVcode.equalsIgnoreCase(vcode)) {
 			//如果不同则不用进行下面步骤
+			request.setAttribute("msg", "验证码错误！");
+			request.setAttribute("name", name);
+			request.setAttribute("vcode", vcode);
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 			return;
 		}
 		//连接数据库查询
@@ -51,6 +55,9 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("loginSeccess", "1");
 			response.sendRedirect("main.jsp");
 		}else {
+			request.setAttribute("msg", "用户名或密码错误");
+			request.setAttribute("name", name);
+			request.setAttribute("vcode", vcode);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}

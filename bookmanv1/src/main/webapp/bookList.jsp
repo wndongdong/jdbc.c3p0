@@ -40,7 +40,7 @@
 					<ul class="nav navbar-nav">
 						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">书籍管理<strong class="caret"></strong></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">书籍修改</a></li>
+								<li><a href="bookdata.jsp">书籍添加</a></li>
 								<li><a href="#">书籍列表</a></li>
 							</ul></li>
 					</ul>
@@ -65,15 +65,15 @@
 							<form class="form-inline" action="bookList">
 							  <div class="form-group">
 							    <label for="inputName">书名</label>
-							    <input type="text" class="form-control" id="inputName" name="name" value="<%=(request.getAttribute("name")==null||request.getAttribute("name").equals(""))?"":request.getAttribute("name")%>">
+							    <input type="text" class="form-control" id="inputName" name="name" value="<%=(session.getAttribute("name")==null||session.getAttribute("name").equals(""))?"":session.getAttribute("name")%>">
 							  </div>
 							  <div class="form-group">
 							    <label for="selType">类型</label>
-							   		<select id="selType" class="form-control" name="tid">
+							   		<select id="selType" class="form-control" name="tid" >
 							   			
-							   			<option value="-1">全部</option>
+							   			<option value="-1">--请选择--</option>
 							   		<%
-							   			List<TypeVo> tls1=(List<TypeVo>)request.getAttribute("tls");	
+							   			List<TypeVo> tls1=(List<TypeVo>)session.getAttribute("tls");	
 							    		for(TypeVo typeVo:tls1){
 							    			%>
 							    			<option value="<%=typeVo.getId()%>"><%=typeVo.getName() %></option>
@@ -103,25 +103,25 @@
 						List<BookVo> ls=(List<BookVo>)request.getAttribute("ls");
 						
 						for(BookVo bookVo:ls){
-							%>
+					%>
 						<tr height="170px;">
 							<td><%=bookVo.getId() %></td>
 							<td><%=bookVo.getName() %></td>
 							<td><%=bookVo.getAuthor() %></td>
 							<td><%=bookVo.getDescri() %></td>
-							<% 
-								List<TypeVo> tls=(List<TypeVo>)request.getAttribute("tls");	
+					<% 
+								List<TypeVo> tls=(List<TypeVo>)session.getAttribute("tls");	
 								for(TypeVo typeVo:tls){
 									if(typeVo.getId()==bookVo.getTid()){
-										%>
+					%>
 										<td>
 											<%=typeVo.getName() %>
 										</td><!-- 这里获取的tid也不是书籍类型编号 -->
-										<%
+					<%
 									}
 								}
 								
-							%>
+					%>
 							
 							<td>
 								<img alt="" src="upload/<%=bookVo.getPhoto()%>"  style="max-height: 120px;">
@@ -129,7 +129,7 @@
 							<td><%=bookVo.getPrice() %></td>
 							<td><%=bookVo.getPubDate() %></td>
 						</tr>
-							<%
+					<%
 						}
 					%>
 						<tr>
@@ -141,11 +141,11 @@
 									int totalPage=(Integer)request.getAttribute("totalPage");
 									if(pageNo==1){
 										%>
-										<li class="disabled"><a href="bookList?pageNo=<%=pageNo-1 %>">Prev</a></li>
+										<li class="disabled"><a href="bookList?pageNo=<%=pageNo%>">&lt;&lt;</a></li>
 										<%
 									}else{
 										%>
-										<li><a href="bookList?pageNo=<%=pageNo-1 %>">Prev</a></li>
+										<li><a href="bookList?pageNo=<%=pageNo-1 %>">&lt;&lt;</a></li>
 										<%
 									}
 									if(totalPage<=5){
@@ -183,11 +183,11 @@
 									<%
 										if(pageNo==totalPage){
 											%>
-											<li class="disabled"><a href="bookList?pageNo=<%=pageNo+1 %>">Prev</a></li>
+											<li class="disabled"><a href="bookList?pageNo=<%=pageNo %>">&gt;&gt;</a></li>
 											<%
 										}else{
 											%>
-											<li ><a href="bookList?pageNo=<%=pageNo+1 %>">Prev</a></li>
+											<li ><a href="bookList?pageNo=<%=pageNo+1 %>">&gt;&gt;</a></li>
 											<%
 										}
 									%>

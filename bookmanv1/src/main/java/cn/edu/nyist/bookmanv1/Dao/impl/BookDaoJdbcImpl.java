@@ -78,14 +78,12 @@ public class BookDaoJdbcImpl implements BookDao {
 		try {
 			conn=JDBCUtil.getConn();
 			String sql="select * from t_book where 1=1 ";
-			if((name==null||name.equals(""))&&tid==-1) {
-				
-			}else if((name==null||name.equals(""))&&tid!=-1) {
+			//这样可以减少情况分类，使用虚拟条件
+			if(tid!=-1) {
 				sql+="and tid="+tid;
-			}else if(!(name==null||name.equals(""))&&tid==-1){
-				sql+="and name like %"+name+"%";
-			}else {
-				sql+="and name like %"+name+"% and tid="+tid;
+			}
+			if(!(name==null||name.equals(""))){
+				sql+="and name like '%"+name+"%'";
 			}
 			sql+=" limit "+((pageNo-1)*PageUtil.PAGE_SIZE+1-1)+","+PageUtil.PAGE_SIZE;
 			stmt=conn.createStatement();

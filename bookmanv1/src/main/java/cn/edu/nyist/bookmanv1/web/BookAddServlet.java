@@ -87,7 +87,7 @@ public class BookAddServlet extends HttpServlet {
 				if(ret>0) {
 					response.sendRedirect("main.jsp");
 				}else {
-					request.getRequestDispatcher("bookdata.jsp").forward(request, response);
+					request.getRequestDispatcher("bookList").forward(request, response);
 				}
 	}
 

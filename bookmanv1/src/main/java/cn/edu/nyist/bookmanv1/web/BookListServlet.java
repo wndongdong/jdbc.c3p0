@@ -29,11 +29,11 @@ public class BookListServlet extends HttpServlet {
 		//先获取界面输入的搜索内容
 		String name=request.getParameter("name");
 		String strTid=request.getParameter("tid");
-		int tid;
+		int tid=-1;
 		try {
 			tid=Integer.parseInt(strTid);
 		} catch (NumberFormatException e1) {
-			tid=-1;
+			
 		} 
 		String strPageNo=request.getParameter("pageNo");
 		int pageNo;
@@ -45,20 +45,26 @@ public class BookListServlet extends HttpServlet {
 
 		BookBiz bookBiz=new BookBizImpl();
 		List<BookVo> ls=bookBiz.getAllBooks(pageNo,name,tid);
+		System.out.println("---------------------------------------------------------------------------");
 		List<TypeVo> tls=bookBiz.getAllType();
-		int totalPage=bookBiz.getTotal();
+		int totalPage=bookBiz.getTotal(name,tid);
+		System.out.println("========================================================="+totalPage);
 		if(totalPage%PageUtil.PAGE_SIZE==0) {
-			request.setAttribute("totalPage",totalPage/PageUtil.PAGE_SIZE);
-		}else {
+			if(totalPage==0) {
+				request.setAttribute("totalPage",1);
+			}else {
+				request.setAttribute("totalPage",totalPage/PageUtil.PAGE_SIZE); 
+			} 
+		}else {	
 			request.setAttribute("totalPage",totalPage/PageUtil.PAGE_SIZE+1);
 		}
-		
-		request.getSession().setAttribute("name", name);
-		request.getSession().setAttribute("tid", tid);
+		request.setAttribute("name", name); 
+		request.setAttribute("tid", tid);
+		System.out.println(name+","+tid);
 		request.setAttribute("pageNo", pageNo);
 		//为了获取书籍类型数据，所以要拿到书籍数据
 		
-		request.getSession().setAttribute("tls", tls);
+		request.setAttribute("tls", tls);
 		//将所得到的数据发送到jsp页面
 		request.setAttribute("ls", ls);
 		request.getRequestDispatcher("bookList.jsp").forward(request, response);
@@ -67,5 +73,5 @@ public class BookListServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+ 
 }

@@ -13,6 +13,6 @@ public interface BookDao {
 
 	List<BookVo> getAllBooks(int pageNo, String name, int tid);
 
-	int getTotal();
+	int getTotal(String name, int tid);
 
 }

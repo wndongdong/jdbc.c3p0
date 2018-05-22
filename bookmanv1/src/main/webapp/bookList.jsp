@@ -3,6 +3,7 @@
 <%@page import="cn.edu.nyist.bookmanv1.vo.BookVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -40,8 +41,8 @@
 					<ul class="nav navbar-nav">
 						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">书籍管理<strong class="caret"></strong></a>
 							<ul class="dropdown-menu">
+								<li><a href="main.jsp">图书馆主页</a></li>
 								<li><a href="bookdata.jsp">书籍添加</a></li>
-								<li><a href="#">书籍列表</a></li>
 							</ul></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
@@ -57,15 +58,16 @@
 			</div>
 		</div>
 		<div class="row" id="tableId">
+		<% List<TypeVo> tls=(List<TypeVo>)session.getAttribute("tls"); %>
 			<div class="col-md-12" id="booklist">
 				<table class="table table-bordered" id="t_booklist" height="400px">
 					<thead>
 						<tr height="36px">
 							<td colspan="8">
-							<form class="form-inline" action="bookList">
+							<form class="form-inline" action="bookList" id="serchFrm">
 							  <div class="form-group">
 							    <label for="inputName">书名</label>
-							    <input type="text" class="form-control" id="inputName" name="name" value="<%=(session.getAttribute("name")==null||session.getAttribute("name").equals(""))?"":session.getAttribute("name")%>">
+							    <input type="text" class="form-control" id="inputName" name="name" value="<%=request.getAttribute("name")==null||request.getAttribute("name").equals("")?"":request.getAttribute("name")%>">
 							  </div>
 							  <div class="form-group">
 							    <label for="selType">类型</label>
@@ -73,11 +75,18 @@
 							   			
 							   			<option value="-1">--请选择--</option>
 							   		<%
-							   			List<TypeVo> tls1=(List<TypeVo>)session.getAttribute("tls");	
-							    		for(TypeVo typeVo:tls1){
-							    			%>
-							    			<option value="<%=typeVo.getId()%>"><%=typeVo.getName() %></option>
-							    			<%
+							   			int tid =(Integer)request.getAttribute("tid");
+							    		
+							    		for(TypeVo typeVo:tls){
+							    			if(tid==typeVo.getId()){
+							    	%>
+								    			<option value="<%=typeVo.getId()%>" selected="selected" > <%=typeVo.getName() %></option>
+								    <%	
+							    			}else{
+							    	%>
+							    				<option value="<%=typeVo.getId()%>" ><%=typeVo.getName()%></option>
+							    	<%
+							    			}
 							    		}
 							   		%>	
 							   		</select>
@@ -95,6 +104,7 @@
 							<th>photo</th>
 							<th>price</th>
 							<th>pubDate</th>
+							<th>glyphicon glyphicon-remove</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -110,7 +120,7 @@
 							<td><%=bookVo.getAuthor() %></td>
 							<td><%=bookVo.getDescri() %></td>
 					<% 
-								List<TypeVo> tls=(List<TypeVo>)session.getAttribute("tls");	
+								
 								for(TypeVo typeVo:tls){
 									if(typeVo.getId()==bookVo.getTid()){
 					%>
@@ -122,7 +132,6 @@
 								}
 								
 					%>
-							
 							<td>
 								<img alt="" src="upload/<%=bookVo.getPhoto()%>"  style="max-height: 120px;">
 							</td>
@@ -134,14 +143,15 @@
 					%>
 						<tr>
 							<td colspan="8" class="text-center">
-								<ul class="pagination" id="page" style="margin: 0px;">
+								<ul class="pagination"  style="margin: 0px;">
 									
 								<%
 									int pageNo=(Integer)request.getAttribute("pageNo");
 									int totalPage=(Integer)request.getAttribute("totalPage");
+									System.out.println(totalPage);
 									if(pageNo==1){
 										%>
-										<li class="disabled"><a href="bookList?pageNo=<%=pageNo%>">&lt;&lt;</a></li>
+										<li class="disabled"><a href="#">&lt;&lt;</a></li>
 										<%
 									}else{
 										%>
@@ -183,7 +193,7 @@
 									<%
 										if(pageNo==totalPage){
 											%>
-											<li class="disabled"><a href="bookList?pageNo=<%=pageNo %>">&gt;&gt;</a></li>
+											<li class="disabled"><a href="#">&gt;&gt;</a></li>
 											<%
 										}else{
 											%>
@@ -218,7 +228,10 @@
 		$(function(){
 			$("a[href='bookList?pageNo=<%=pageNo%>']").parent("li").addClass("active");
 
-			
+			$(".pagination a[href^='bookList?pageNo=']").click(function(){
+				//这里是给表单提交内容进行序列化，从而通过序列化进行表单查询内容加载
+					this.href+="&"+$("#serchFrm").serialize();
+				});
 		});
 	</script>
 </body>

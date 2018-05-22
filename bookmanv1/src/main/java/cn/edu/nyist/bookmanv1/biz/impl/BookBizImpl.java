@@ -30,9 +30,9 @@ public class BookBizImpl implements BookBiz {
 	}
 
 	@Override
-	public int getTotal() {
+	public int getTotal(String name,int tid) {
 		BookDao allBooks=new BookDaoJdbcImpl();
-		return allBooks.getTotal();
+		return allBooks.getTotal(name,tid);
 	}
 
 }

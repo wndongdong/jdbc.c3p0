@@ -80,10 +80,10 @@ public class BookDaoJdbcImpl implements BookDao {
 			String sql="select * from t_book where 1=1 ";
 			//这样可以减少情况分类，使用虚拟条件
 			if(tid!=-1) {
-				sql+="and tid="+tid;
+				sql+=" and tid="+tid;
 			}
 			if(!(name==null||name.equals(""))){
-				sql+="and name like '%"+name+"%'";
+				sql+=" and name like '%"+name+"%'";
 			}
 			sql+=" limit "+((pageNo-1)*PageUtil.PAGE_SIZE+1-1)+","+PageUtil.PAGE_SIZE;
 			stmt=conn.createStatement();
@@ -111,15 +111,21 @@ public class BookDaoJdbcImpl implements BookDao {
 	}
 
 	@Override
-	public int getTotal() {
+	public int getTotal(String name, int tid) {
 		Connection conn=null;
 		Statement stmt=null;
 		ResultSet rs=null;
-		
 		try {
 			conn=JDBCUtil.getConn();
 			stmt=conn.createStatement();
-			String sql="select count(*) from t_book";
+			String sql="select count(*) from t_book where 1=1 ";
+			//这样可以减少情况分类，使用虚拟条件
+			if(tid!=-1) {
+				sql+=" and tid="+tid;
+			}
+			if(!(name==null||name.equals(""))){
+				sql+=" and name like '%"+name+"%'";
+			}
 			rs=stmt.executeQuery(sql);
 			if(rs.next()) {
 				return rs.getInt(1);

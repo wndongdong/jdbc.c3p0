@@ -9,9 +9,57 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 	<link href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css"/>
+	<style type="text/css">
+		#mainId {
+			padding-top: 10px;
+		}
+		.bookAdd{
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+			
+		}
+	</style>
 </head>
 <body>
-	<div class="container-fluid">
+	
+	<div class="container-fluid" id="mainId">
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span><span
+							class="icon-bar"></span><span class="icon-bar"></span><span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">图书馆</a>
+				</div>
+
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">书籍管理<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li><a href="main.jsp">图书馆主页</a></li>
+								<li><a href="bookList">书籍列表</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#">退出</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">账号<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li><a href="login.jsp">登录</a></li>
+								<li><a href="#">注册</a></li>
+							</ul></li>
+					</ul>
+				</div>
+				</nav>
+			</div>
+		</div>
+		<div class="bookAdd">
 		<div class="row">
 			<div class="col-md-12">
 				<form class="form-horizontal" id="signupForm" role="form" method="post"
@@ -100,6 +148,15 @@
 						</div>
 					</div>
 				</form>
+			</div>
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div
+					style="text-align: center; background-color: #DCDCDC;padding-top: 15px;padding-bottom: 15px;">
+					<p>&copy;忆殇雨</p>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -58,7 +58,7 @@
 			</div>
 		</div>
 		<div class="row" id="tableId">
-		<% List<TypeVo> tls=(List<TypeVo>)session.getAttribute("tls"); %>
+			<% List<TypeVo> tls=(List<TypeVo>)request.getAttribute("tls"); %>
 			<div class="col-md-12" id="booklist">
 				<table class="table table-bordered" id="t_booklist" height="400px">
 					<thead>

@@ -48,7 +48,7 @@ public class SelAllBookTypeServlet extends HttpServlet {
 			js+="{id:"+ls.get(i).getId()+",name:'"+ls.get(i).getName()+"'}";
 			if(i<ls.size()-1) {
 				js+=",";
-			}
+			} 
 		}
 		js+="]";
 		//这里iframe为子窗口，而方法selAllType在父窗口中，所以要调用父窗口的方法

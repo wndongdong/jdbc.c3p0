@@ -13,4 +13,10 @@ public interface BookBiz {
 	List<BookVo> getAllBooks(int pageNo, String name, int tid);
 
 	int getTotal( String name, int tid);
+
+	boolean getDel(int id);
+
+	BookVo selAllBooks(int id);
+
+	int getEditBook(BookVo bookVo);
 }

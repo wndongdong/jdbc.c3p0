@@ -40,6 +40,7 @@ public class BookAddServlet extends HttpServlet {
 					//(1)文件内容上传时编码问题
 				request.setCharacterEncoding("utf-8");
 				Part part=request.getPart("photo");
+				System.out.println("---------------************************------------------"+part);
 				String fileName=part.getHeader("Content-Disposition").split(";")[2].split("=")[1].replace("\"", "");
 				fileName = fileName.lastIndexOf("\\") == -1 ? fileName : fileName.substring(fileName.lastIndexOf("\\") + 1);
 				String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
@@ -75,7 +76,7 @@ public class BookAddServlet extends HttpServlet {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}*/
-				System.out.println(request.getParameter("name"));//TODO
+				System.out.println(request.getParameter("name"));
 				BookVo bookVo=new BookVo();
 				MyBeanUtils.populate(bookVo,request.getParameterMap(),"yyyy-MM-dd");
 				System.out.println(bookVo.getTid());

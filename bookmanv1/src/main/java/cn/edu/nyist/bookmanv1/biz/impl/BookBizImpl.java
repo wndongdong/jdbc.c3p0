@@ -35,4 +35,23 @@ public class BookBizImpl implements BookBiz {
 		return allBooks.getTotal(name,tid);
 	}
 
+	@Override
+	public boolean getDel(int id) {
+		BookDao bookDao=new BookDaoJdbcImpl();
+		return bookDao.getDel(id);
+	}
+
+
+	@Override
+	public BookVo selAllBooks(int id) {
+		BookDao bookDao=new BookDaoJdbcImpl();
+		return bookDao.selAllBooks(id);
+	}
+
+	@Override
+	public int getEditBook(BookVo bookVo) {
+		BookDao bookDao=new BookDaoJdbcImpl();
+		return bookDao.getEdit(bookVo);
+	}
+
 }

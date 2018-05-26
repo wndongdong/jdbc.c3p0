@@ -60,7 +60,7 @@ public class BookListServlet extends HttpServlet {
 		}
 		request.setAttribute("name", name); 
 		request.setAttribute("tid", tid);
-		System.out.println(name+","+tid);
+		System.out.println(name+","+tid); 
 		request.setAttribute("pageNo", pageNo);
 		//为了获取书籍类型数据，所以要拿到书籍数据
 		

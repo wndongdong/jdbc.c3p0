@@ -63,7 +63,7 @@
 				<table class="table table-bordered" id="t_booklist" height="400px">
 					<thead>
 						<tr height="36px">
-							<td colspan="8">
+							<td colspan="9">
 							<form class="form-inline" action="bookList" id="serchFrm">
 							  <div class="form-group">
 							    <label for="inputName">书名</label>
@@ -104,7 +104,7 @@
 							<th>photo</th>
 							<th>price</th>
 							<th>pubDate</th>
-							<th>glyphicon glyphicon-remove</th>
+							<th>书籍管理操作</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -137,12 +137,16 @@
 							</td>
 							<td><%=bookVo.getPrice() %></td>
 							<td><%=bookVo.getPubDate() %></td>
+							<td>
+								<a class=" glyphicon glyphicon-remove"  href="bookDel?id=<%=bookVo.getId() %>" onclick="confirmDel()"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="glyphicon glyphicon-pencil" href="toBookEdit?id=<%= bookVo.getId() %>"></a>
+							</td>
 						</tr>
 					<%
 						}
 					%>
 						<tr>
-							<td colspan="8" class="text-center">
+							<td colspan="9" class="text-center">
 								<ul class="pagination"  style="margin: 0px;">
 									
 								<%
@@ -233,6 +237,11 @@
 					this.href+="&"+$("#serchFrm").serialize();
 				});
 		});
+		function confirmDel(event){
+			if(!confirm("确认删除")){
+				event.preventDefault();
+			}
+		}
 	</script>
 </body>
 </html>

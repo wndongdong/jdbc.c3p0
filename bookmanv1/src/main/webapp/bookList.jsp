@@ -3,7 +3,7 @@
 <%@page import="cn.edu.nyist.bookmanv1.vo.BookVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -58,7 +58,7 @@
 			</div>
 		</div>
 		<div class="row" id="tableId">
-			<% List<TypeVo> tls=(List<TypeVo>)request.getAttribute("tls"); %>
+			
 			<div class="col-md-12" id="booklist">
 				<table class="table table-bordered" id="t_booklist" height="400px">
 					<thead>
@@ -67,28 +67,23 @@
 							<form class="form-inline" action="bookList" id="serchFrm">
 							  <div class="form-group">
 							    <label for="inputName">书名</label>
-							    <input type="text" class="form-control" id="inputName" name="name" value="<%=request.getAttribute("name")==null||request.getAttribute("name").equals("")?"":request.getAttribute("name")%>">
+							    <input type="text" class="form-control" id="inputName" name="name" value="${requestScope.name }">
 							  </div>
 							  <div class="form-group">
 							    <label for="selType">类型</label>
 							   		<select id="selType" class="form-control" name="tid" >
 							   			
 							   			<option value="-1">--请选择--</option>
-							   		<%
-							   			int tid =(Integer)request.getAttribute("tid");
-							    		
-							    		for(TypeVo typeVo:tls){
-							    			if(tid==typeVo.getId()){
-							    	%>
-								    			<option value="<%=typeVo.getId()%>" selected="selected" > <%=typeVo.getName() %></option>
-								    <%	
-							    			}else{
-							    	%>
-							    				<option value="<%=typeVo.getId()%>" ><%=typeVo.getName()%></option>
-							    	<%
-							    			}
-							    		}
-							   		%>	
+							   			<c:forEach items="${requestScope.tls }" var="typeVo">
+							   				<c:choose>
+							   					<c:when test="${requestScope.tid==typeVo.id }">
+							   						<option value="${typeVo.id }" selected="selected" >${typeVo.name }</option>
+							   					</c:when>
+							   					<c:otherwise>
+							   						<option value="${typeVo.id }" >${typeVo.name }</option>
+							   					</c:otherwise>
+							   				</c:choose>
+							   			</c:forEach>
 							   		</select>
 							  </div>
 							  <button type="submit" class="btn btn-default">搜索</button>
@@ -108,104 +103,80 @@
 						</tr>
 					</thead>
 					<tbody>
-					<!-- 现在jsp取数据，取来的数据来动态填入表格 -->
-					<%
-						List<BookVo> ls=(List<BookVo>)request.getAttribute("ls");
-						
-						for(BookVo bookVo:ls){
-					%>
+					
+					<c:forEach items="${requestScope.ls }" var="bookVo">
 						<tr height="170px;">
-							<td><%=bookVo.getId() %></td>
-							<td><%=bookVo.getName() %></td>
-							<td><%=bookVo.getAuthor() %></td>
-							<td><%=bookVo.getDescri() %></td>
-					<% 
-								
-								for(TypeVo typeVo:tls){
-									if(typeVo.getId()==bookVo.getTid()){
-					%>
-										<td>
-											<%=typeVo.getName() %>
-										</td><!-- 这里获取的tid也不是书籍类型编号 -->
-					<%
-									}
-								}
-								
-					%>
+							<td>${bookVo.id }</td>
+							<td>${bookVo.name }</td>
+							<td>${bookVo.author }</td>
+							<td>${bookVo.descri }</td>
+							<c:forEach items="${requestScope.tls }" var="typeVo">
+								<c:if test="${typeVo.id==bookVo.tid }">
+									<td>
+											${typeVo.name }
+									</td>
+								</c:if>
+							</c:forEach>
 							<td>
-								<img alt="" src="upload/<%=bookVo.getPhoto()%>"  style="max-height: 120px;">
+								<img alt="" src="upload/${bookVo.photo }"  style="max-height: 120px;">
 							</td>
-							<td><%=bookVo.getPrice() %></td>
-							<td><%=bookVo.getPubDate() %></td>
+							<td>${bookVo.price }</td>
+							<td>${bookVo.pubDate }</td>
 							<td>
-								<a class=" glyphicon glyphicon-remove"  href="bookDel?id=<%=bookVo.getId() %>" onclick="confirmDel()"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-								<a class="glyphicon glyphicon-pencil" href="toBookEdit?id=<%= bookVo.getId() %>"></a>
+								<a class=" glyphicon glyphicon-remove"  href="bookDel?id=${bookVo.id } %>" onclick="confirmDel()"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="glyphicon glyphicon-pencil" href="toBookEdit?id=${bookVo.id } %>"></a>
 							</td>
 						</tr>
-					<%
-						}
-					%>
+					</c:forEach>
+					<!-- 现在jsp取数据，取来的数据来动态填入表格 -->
 						<tr>
 							<td colspan="9" class="text-center">
 								<ul class="pagination"  style="margin: 0px;">
 									
-								<%
-									int pageNo=(Integer)request.getAttribute("pageNo");
-									int totalPage=(Integer)request.getAttribute("totalPage");
-									System.out.println(totalPage);
-									if(pageNo==1){
-										%>
-										<li class="disabled"><a href="#">&lt;&lt;</a></li>
-										<%
-									}else{
-										%>
-										<li><a href="bookList?pageNo=<%=pageNo-1 %>">&lt;&lt;</a></li>
-										<%
-									}
-									if(totalPage<=5){
-										for(int i=1;i<=totalPage;i++){
-										%>	
-											<li><a href="bookList?pageNo=<%=i%>"><%=i %></a></li>
-										<%
-										}
-									}else if(pageNo<=3){
-										%>
-										<li><a href="bookList?pageNo=1">1</a></li>
-										<li><a href="bookList?pageNo=2">2</a></li>
-										<li><a href="bookList?pageNo=3">3</a></li>
-										<li><a href="bookList?pageNo=4">4</a></li>
-										<li><a href="bookList?pageNo=<%=totalPage%>">..<%=totalPage %></a></li>
-										<%
-									}else if(pageNo>=totalPage-2){
-										%>
-										<li><a href="bookList?pageNo=1">..1</a></li>
-										<li><a href="bookList?pageNo=<%=totalPage-3%>"><%=totalPage-3%></a></li>
-										<li><a href="bookList?pageNo=<%=totalPage-2%>"><%=totalPage-2%></a></li>
-										<li><a href="bookList?pageNo=<%=totalPage-1%>"><%=totalPage-1%></a></li>
-										<li><a href="bookList?pageNo=<%=totalPage%>"><%=totalPage %></a></li>
-										<%
-									}else{
-										%>
-										<li><a href="bookList?pageNo=1">1..</a></li>
-										<li><a href="bookList?pageNo=<%=pageNo-1 %>"><%=pageNo-1 %></a></li>
-										<li><a href="bookList?pageNo=<%=pageNo %>"><%=pageNo%></a></li>
-										<li><a href="bookList?pageNo=<%=pageNo+1 %>"><%=pageNo+1 %></a></li>
-										<li><a href="bookList?pageNo=<%=totalPage%>">..<%=totalPage %></a></li>
-										<%
-									}
-								%>	
-									<%
-										if(pageNo==totalPage){
-											%>
+									<c:choose>
+										<c:when test="${requestScope.pageNo==1 }">
+											<li class="disabled"><a href="#">&lt;&lt;</a></li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="bookList?pageNo=${requestScope.pageNo-1 }">&lt;&lt;</a></li>
+										</c:otherwise>
+									</c:choose>
+									<c:choose>
+										<c:when test="${requestScope.totalPage<=5 }">
+											<c:forEach begin="1" end="${requestScope.totalPage }" var="i">
+												<li><a href="bookList?pageNo=${i }">${i }</a></li>
+											</c:forEach>
+										</c:when>
+										<c:when test="${requestScope.pageNo<=3 }">
+											<li><a href="bookList?pageNo=1">1</a></li>
+											<li><a href="bookList?pageNo=2">2</a></li>
+											<li><a href="bookList?pageNo=3">3</a></li>
+											<li><a href="bookList?pageNo=4">4</a></li>
+											<li><a href="bookList?pageNo=${requestScope.totalPage }">..${requestScope.totalPage }</a></li>
+										</c:when>
+										<c:when test="${requestScope.pageNo>=requestScope.totalPage-2 }">
+											<li><a href="bookList?pageNo=1">..1</a></li>
+											<li><a href="bookList?pageNo=${requestScope.totalPage-3 }">${requestScope.totalPage-3 }</a></li>
+											<li><a href="bookList?pageNo=${requestScope.totalPage-2 }">${requestScope.totalPage-2 }</a></li>
+											<li><a href="bookList?pageNo=${requestScope.totalPage-1 }">${requestScope.totalPage-1 }</a></li>
+											<li><a href="bookList?pageNo=${requestScope.totalPage }">${requestScope.totalPage }</a></li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="bookList?pageNo=1">1..</a></li>
+											<li><a href="bookList?pageNo=${requestScope.pageNo-1 }">${requestScope.pageNo-1 }</a></li>
+											<li><a href="bookList?pageNo=${requestScope.pageNo }">${requestScope.pageNo }</a></li>
+											<li><a href="bookList?pageNo=${requestScope.pageNo+1 }">${requestScope.pageNo+1 }</a></li>
+											<li><a href="bookList?pageNo=${requestScope.totalPage }">..${requestScope.totalPage }</a></li>
+										</c:otherwise>
+									</c:choose>
+									<c:choose>
+										<c:when test="${requestScope.pageNo==requestScope.totalPage }">
 											<li class="disabled"><a href="#">&gt;&gt;</a></li>
-											<%
-										}else{
-											%>
-											<li ><a href="bookList?pageNo=<%=pageNo+1 %>">&gt;&gt;</a></li>
-											<%
-										}
-									%>
-									
+										</c:when>
+										<c:otherwise>
+											<li ><a href="bookList?pageNo=${requestScope.pageNo+1 }">&gt;&gt;</a></li>
+										</c:otherwise>
+									</c:choose>
 								</ul>
 							</td>
 						</tr>
@@ -230,7 +201,7 @@
 	</script>
 	<script type="text/javascript">
 		$(function(){
-			$("a[href='bookList?pageNo=<%=pageNo%>']").parent("li").addClass("active");
+			$("a[href='bookList?pageNo=${requestScope.pageNo}']").parent("li").addClass("active");
 
 			$(".pagination a[href^='bookList?pageNo=']").click(function(){
 				//这里是给表单提交内容进行序列化，从而通过序列化进行表单查询内容加载
